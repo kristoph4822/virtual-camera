@@ -1,0 +1,21 @@
+Camera is controlled with keyboard.
+
+Movement:
+    W: Forwards
+    S: Backwards
+    D: Right
+    A: Left
+    Q: Up
+    E: Down
+
+Rotations:
+    I: Up
+    K: Down
+    L: Right
+    J: Left
+    O: Sideways right
+    U: Sideways left
+
+Zoom:
+    Z: Zoom in
+    X: Zoom out
