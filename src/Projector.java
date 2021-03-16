@@ -7,9 +7,11 @@ public class Projector {
 
     public static final int VIEWPORT_WIDTH = 1400;
     public static final int VIEWPORT_HEIGHT = 900;
-    private static final float VPD = 1000; //odległość środka rzutowania do płaszczyzny rzutni
+    private static final float ZOOM_VALUE = 25;
 
-    private static final double[][] projectionArray = {{1.,0.,0.,0.},{0.,1.,0.,0.},{0.,0.,1.,0.},{0.,0.,1/VPD, 0.}};
+    private static float vpd = 1000; //odległość środka rzutowania do płaszczyzny rzutni
+
+    private static final double[][] projectionArray = {{1.,0.,0.,0.},{0.,1.,0.,0.},{0.,0.,1.,0.},{0.,0.,1/vpd, 0.}};
     private static final Matrix projectionMatrix = new Matrix(projectionArray);
 
 
@@ -43,7 +45,7 @@ public class Projector {
         if (p.getZ() < 0)
             vertexVector.set(0,2,0);
 
-        Matrix projectedVertex = vertexVector.times(projectionMatrix).times(VPD/vertexVector.get(0,2));
+        Matrix projectedVertex = vertexVector.times(projectionMatrix).times(vpd/vertexVector.get(0,2));
         projectedPoint = matrixToPoint(projectedVertex);
         translatePointForProcessing(projectedPoint);
 
@@ -66,5 +68,14 @@ public class Projector {
         p.setX(p.getX() + VIEWPORT_WIDTH/2);
         p.setY(p.getY() * -1);
         p.setY(p.getY() + VIEWPORT_HEIGHT/2);
+    }
+
+    public static void zoomIn (){
+        vpd += ZOOM_VALUE;
+    }
+
+    public static void zoomOut (){
+        if (vpd > ZOOM_VALUE)
+            vpd -= ZOOM_VALUE;
     }
 }

@@ -29,6 +29,9 @@ public class ProcessingMain extends PApplet{
             case 'j' -> Transformator.rotateCubes(cubes, "left");
             case 'o' -> Transformator.rotateCubes(cubes, "sideways_right");
             case 'u' -> Transformator.rotateCubes(cubes, "sideways_left");
+
+            case 'z' -> Projector.zoomIn();
+            case 'x' -> Projector.zoomOut();
         }
         redraw();
     }
