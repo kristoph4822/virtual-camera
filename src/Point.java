@@ -1,3 +1,5 @@
+import Jama.*;
+
 public class Point {
     // klasa wykorzystywana zarówno przy 3D, jak i 2D
 
@@ -27,5 +29,10 @@ public class Point {
 
     public void setZ(float z) {
         this.z = z;
+    }
+
+    public Matrix toMatrix(){
+        double[][] coordinatesArray = {{this.x, this.y, this.z, 1.}};
+        return new Matrix(coordinatesArray);
     }
 }

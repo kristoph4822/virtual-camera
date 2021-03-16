@@ -7,10 +7,10 @@ public class Projector {
 
     public static final int VIEWPORT_WIDTH = 1400;
     public static final int VIEWPORT_HEIGHT = 900;
-    private static final float VPD = 400; //odległość środka rzutowania do płaszczyzny rzutni
+    private static final float VPD = 1000; //odległość środka rzutowania do płaszczyzny rzutni
 
-    private static double[][] projectionArray = {{1.,0.,0.,0.},{0.,1.,0.,0.},{0.,0.,1.,0.},{0.,0.,1/VPD, 0.}};
-    private static Matrix projectionMatrix = new Matrix(projectionArray);
+    private static final double[][] projectionArray = {{1.,0.,0.,0.},{0.,1.,0.,0.},{0.,0.,1.,0.},{0.,0.,1/VPD, 0.}};
+    private static final Matrix projectionMatrix = new Matrix(projectionArray);
 
 
     public static ArrayList<Cube> projectCubes(ArrayList<Cube> cubes){
@@ -34,8 +34,15 @@ public class Projector {
 
     private static Point projectPoint(Point p){
         Point projectedPoint;
-        double[][] coordinatesArray = {{p.getX(),p.getY(),p.getZ(),1.}};
-        Matrix vertexVector = new Matrix(coordinatesArray);
+        Matrix vertexVector = p.toMatrix();
+
+        /*
+        jeżeli Z jest mniejsze od 0, czyli punkt jest za obserwatorem
+        to ustawiamy z=0 żeby uniknąć błędów wyświetlania
+        */
+        if (p.getZ() < 0)
+            vertexVector.set(0,2,0);
+
         Matrix projectedVertex = vertexVector.times(projectionMatrix).times(VPD/vertexVector.get(0,2));
         projectedPoint = matrixToPoint(projectedVertex);
         translatePointForProcessing(projectedPoint);
