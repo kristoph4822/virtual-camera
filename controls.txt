@@ -19,3 +19,7 @@ Rotations:
 Zoom:
     Z: Zoom in
     X: Zoom out
+
+View Mode:
+    M: Edges
+    N: Walls
