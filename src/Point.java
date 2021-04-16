@@ -7,6 +7,15 @@ public class Point {
     private float y;
     private float z;
 
+    public Point() {
+    }
+
+    public Point(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public float getX() {
         return x;
     }
@@ -31,7 +40,7 @@ public class Point {
         this.z = z;
     }
 
-    public Matrix toMatrix(){
+    public Matrix toMatrix() {
         double[][] coordinatesArray = {{this.x, this.y, this.z, 1.}};
         return new Matrix(coordinatesArray);
     }

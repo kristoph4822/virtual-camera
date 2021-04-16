@@ -1,24 +1,24 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.ArrayList;
-import java.util.Scanner; // Import the Scanner class to read text files
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class FileReader {
 
-    private String fileName;
+    private final String fileName;
+    public final int N_CUBES = 4;
 
-    public FileReader(String fileName){
+    public FileReader(String fileName) {
         this.fileName = fileName;
     }
 
-    public ArrayList<Cube> readCubes() {
+    public Cube[] readCubes() {
 
-        ArrayList<Cube> cubes = new ArrayList<Cube>();
+        Cube[] cubes = new Cube[N_CUBES];
 
         try {
             Scanner coordinatesReader = new Scanner(new File("src/" + this.fileName));
-
-            while (coordinatesReader.hasNextLine()){
+            int i = 0;
+            while (coordinatesReader.hasNextLine()) {
                 int verticesRead = 0;
                 Point[] cubeVertices = new Point[8];
 
@@ -27,7 +27,8 @@ public class FileReader {
                     verticesRead += 1;
                 }
 
-                cubes.add(new Cube(cubeVertices));
+                cubes[i] = new Cube(cubeVertices);
+                i++;
             }
 
             coordinatesReader.close();
@@ -40,8 +41,8 @@ public class FileReader {
         return cubes;
     }
 
-    public Point addVertex(String line){
-        String[] coordinates  = line.split(",");
+    public Point addVertex(String line) {
+        String[] coordinates = line.split(",");
         Point vertex = new Point();
 
         vertex.setX(Float.parseFloat(coordinates[0].strip()));

@@ -1,19 +1,16 @@
 import Jama.Matrix;
-import java.math.*;
-
-import java.util.ArrayList;
 
 public class Transformator {
 
-    private static double[][] identityArray = {{1.,0.,0.,0.},{0.,1.,0.,0.},{0.,0.,1.,0.},{0.,0.,0.,1.}};
-    private static Matrix identityMatrix = new Matrix(identityArray);
+    private static final double[][] identityArray = {{1., 0., 0., 0.}, {0., 1., 0., 0.}, {0., 0., 1., 0.}, {0., 0., 0., 1.}};
+    private static final Matrix identityMatrix = new Matrix(identityArray);
 
-    private static double TRANSLATION_VALUE = 10;
-    private static double ROTATION_DEGREE = 2;
+    private static final double TRANSLATION_VALUE = 20;
+    private static final double ROTATION_DEGREE = 2;
 
-    public static void translateCubes(ArrayList<Cube> cubes, String direction){
-        for (Cube c: cubes) {
-            for (Point v: c.getVertices()){
+    public static void translateCubes(Cube[] cubes, String direction) {
+        for (Cube c : cubes) {
+            for (Point v : c.getVertices()) {
                 switch (direction) {
                     case "right" -> translate(v, -TRANSLATION_VALUE, 0, 0);
                     case "left" -> translate(v, TRANSLATION_VALUE, 0, 0);
@@ -26,9 +23,9 @@ public class Transformator {
         }
     }
 
-    public static void rotateCubes(ArrayList<Cube> cubes, String direction){
-        for (Cube c: cubes) {
-            for (Point v: c.getVertices()){
+    public static void rotateCubes(Cube[] cubes, String direction) {
+        for (Cube c : cubes) {
+            for (Point v : c.getVertices()) {
                 switch (direction) {
                     case "right" -> rotate(v, 'Y', -ROTATION_DEGREE);
                     case "left" -> rotate(v, 'Y', ROTATION_DEGREE);
@@ -41,18 +38,18 @@ public class Transformator {
         }
     }
 
-    private static void translate (Point p, double tx, double ty, double tz){
+    private static void translate(Point p, double tx, double ty, double tz) {
         Matrix translationMatrix = identityMatrix.copy();
 
-        translationMatrix.set(3,0, tx);
-        translationMatrix.set(3,1, ty);
-        translationMatrix.set(3,2, tz);
+        translationMatrix.set(3, 0, tx);
+        translationMatrix.set(3, 1, ty);
+        translationMatrix.set(3, 2, tz);
 
         Matrix translatedVertex = p.toMatrix().times(translationMatrix);
 
-        p.setX((float)translatedVertex.get(0,0));
-        p.setY((float)translatedVertex.get(0,1));
-        p.setZ((float)translatedVertex.get(0,2));
+        p.setX((float) translatedVertex.get(0, 0));
+        p.setY((float) translatedVertex.get(0, 1));
+        p.setZ((float) translatedVertex.get(0, 2));
     }
 
     private static void rotate(Point p, char axis, double deg) {
@@ -61,24 +58,24 @@ public class Transformator {
         double cos = Math.cos(Math.toRadians(deg));
 
         switch (axis) {
-            case 'X':
+            case 'X' -> {
                 rotationMatrix.set(1, 1, cos);
                 rotationMatrix.set(1, 2, sin);
                 rotationMatrix.set(2, 1, -sin);
                 rotationMatrix.set(2, 2, cos);
-                break;
-            case 'Y':
+            }
+            case 'Y' -> {
                 rotationMatrix.set(0, 0, cos);
                 rotationMatrix.set(0, 2, -sin);
                 rotationMatrix.set(2, 0, sin);
                 rotationMatrix.set(2, 2, cos);
-                break;
-            case 'Z':
+            }
+            case 'Z' -> {
                 rotationMatrix.set(0, 0, cos);
                 rotationMatrix.set(0, 1, sin);
                 rotationMatrix.set(1, 0, -sin);
                 rotationMatrix.set(1, 1, cos);
-                break;
+            }
         }
 
         Matrix rotatedVertex = p.toMatrix().times(rotationMatrix);
